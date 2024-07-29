@@ -15,7 +15,7 @@ export interface Feed {
 export async function parseRSS(url: string): Promise<Feed> {
   const feed = await parser.parseURL(url);
   return {
-    items: feed.items.map((item): FeedItem => ({
+    items: feed.items.map((item: any): FeedItem => ({
       title: item.title || '',
       link: item.link || '',
       pubDate: item.pubDate || '',

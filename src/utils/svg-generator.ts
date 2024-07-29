@@ -1,27 +1,58 @@
-import { FeedItem } from './rss-parser';
+import { FeedItem } from '../utils/rss-parser';
 
-export function generateSVG(items: FeedItem[], theme: string): string {
-  const width = 400;
-  const height = 200;
-  const backgroundColor = theme === 'dark' ? '#333' : '#fff';
-  const textColor = theme === 'dark' ? '#fff' : '#333';
+export function generateSVG(username: string, items: FeedItem[], theme: string, totalLikes: number, tags: string[]): string {
+  const darkMode = theme === 'dark';
+  const backgroundColor = darkMode ? '#0F172A' : '#F8FAFC';
+  const textColor = darkMode ? '#E2E8F0' : '#334155';
+  const accentColor = '#1EC997'; 
+  const secondaryColor = darkMode ? '#64748B' : '#94A3B8';
+  const cardColor = darkMode ? '#1E293B' : '#FFFFFF';
 
-  let svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-      <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
-      <text x="10" y="30" fill="${textColor}" font-size="16" font-weight="bold">Latest Velog Posts</text>
+  const width = 480;
+  const height = 240;
+
+  const velogLogoUrl = "https://images.velog.io/images/velog/profile/9aa07f66-5fcd-41f4-84f2-91d73afcec28/green%20favicon.png";
+
+  let svgContent = `
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:${backgroundColor};stop-opacity:1" />
+          <stop offset="100%" style="stop-color:${darkMode ? '#1E293B' : '#EFF6FF'};stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grad1)" rx="12" />
+      
+      <!-- Header -->
+      <image xlink:href="${velogLogoUrl}" x="20" y="15" height="30" width="30" />
+      <text x="60" y="37" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="${textColor}">${username}</text>
+      <text x="${width - 35}" y="37" font-family="Arial, sans-serif" font-size="14" fill="${secondaryColor}" text-anchor="end">❤️ ${totalLikes}</text>
+      
+      <!-- Latest Posts -->
+      <text x="20" y="75" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="${accentColor}">Latest Posts</text>
   `;
 
-  items.forEach((item, index) => {
-    svg += `
-      <text x="10" y="${60 + index * 30}" fill="${textColor}" font-size="14">${truncate(item.title, 40)}</text>
+  items.slice(0, 3).forEach((item, index) => {
+    const yPos = 100 + index * 30;
+    const title = item.title.length > 40 ? item.title.substring(0, 37) + '...' : item.title;
+    const date = new Date(item.pubDate).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
+    svgContent += `
+      <rect x="20" y="${yPos - 15}" width="${width - 40}" height="25" rx="4" fill="${cardColor}" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      <text x="30" y="${yPos + 2}" font-family="Arial, sans-serif" font-size="12" fill="${textColor}">${title}</text>
+      <text x="${width - 30}" y="${yPos + 2}" font-family="Arial, sans-serif" font-size="10" fill="${secondaryColor}" text-anchor="end">${date}</text>
     `;
   });
 
-  svg += '</svg>';
-  return svg;
-}
+  svgContent += `<text x="20" y="195" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="${accentColor}">Top Tags</text>`;
+  tags.slice(0, 4).forEach((tag, index) => {
+    const xPos = 20 + index * 115;
+    svgContent += `
+      <rect x="${xPos}" y="205" width="105" height="24" rx="12" fill="${cardColor}" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      <text x="${xPos + 52.5}" y="221" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="${accentColor}" text-anchor="middle">${tag}</text>
+    `;
+  });
 
-function truncate(str: string, length: number): string {
-  return str.length > length ? str.substring(0, length - 3) + '...' : str;
+  svgContent += '</svg>';
+
+  return svgContent;
 }

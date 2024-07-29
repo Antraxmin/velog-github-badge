@@ -4,7 +4,7 @@ export function generateSVG(username: string, items: FeedItem[], theme: string, 
   const darkMode = theme === 'dark';
   const backgroundColor = darkMode ? '#0F172A' : '#F8FAFC';
   const textColor = darkMode ? '#E2E8F0' : '#334155';
-  const accentColor = '#1EC997'; 
+  const accentColor = '#1EC997';
   const secondaryColor = darkMode ? '#64748B' : '#94A3B8';
   const cardColor = darkMode ? '#1E293B' : '#FFFFFF';
 
@@ -37,9 +37,11 @@ export function generateSVG(username: string, items: FeedItem[], theme: string, 
     const title = item.title.length > 40 ? item.title.substring(0, 37) + '...' : item.title;
     const date = new Date(item.pubDate).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
     svgContent += `
-      <rect x="20" y="${yPos - 15}" width="${width - 40}" height="25" rx="4" fill="${cardColor}" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
-      <text x="30" y="${yPos + 2}" font-family="Arial, sans-serif" font-size="12" fill="${textColor}">${title}</text>
-      <text x="${width - 30}" y="${yPos + 2}" font-family="Arial, sans-serif" font-size="10" fill="${secondaryColor}" text-anchor="end">${date}</text>
+      <a href="${item.link}" target="_blank">
+        <rect x="20" y="${yPos - 15}" width="${width - 40}" height="25" rx="4" fill="${cardColor}" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+        <text x="30" y="${yPos + 2}" font-family="Arial, sans-serif" font-size="12" fill="${textColor}">${title}</text>
+        <text x="${width - 30}" y="${yPos + 2}" font-family="Arial, sans-serif" font-size="10" fill="${secondaryColor}" text-anchor="end">${date}</text>
+      </a>
     `;
   });
 

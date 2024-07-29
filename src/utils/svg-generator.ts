@@ -44,11 +44,14 @@ export function generateSVG(username: string, items: FeedItem[], theme: string, 
   });
 
   svgContent += `<text x="20" y="195" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="${accentColor}">Top Tags</text>`;
-  tags.slice(0, 4).forEach((tag, index) => {
-    const xPos = 20 + index * 115;
+  
+  const tagWidth = 90;
+  const tagSpacing = 10;
+  tags.slice(0, 5).forEach((tag, index) => {
+    const xPos = 20 + index * (tagWidth + tagSpacing);
     svgContent += `
-      <rect x="${xPos}" y="205" width="105" height="24" rx="12" fill="${cardColor}" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
-      <text x="${xPos + 52.5}" y="221" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="${accentColor}" text-anchor="middle">${tag}</text>
+      <rect x="${xPos}" y="205" width="${tagWidth}" height="24" rx="12" fill="${cardColor}" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+      <text x="${xPos + tagWidth/2}" y="221" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="${accentColor}" text-anchor="middle">${tag}</text>
     `;
   });
 

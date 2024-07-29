@@ -51,13 +51,17 @@ export function generateSVG(username: string, items: FeedItem[], theme: string, 
   const tagSpacing = 10;
   tags.slice(0, 5).forEach((tag, index) => {
     const xPos = 20 + index * (tagWidth + tagSpacing);
+    const tagUrl = `https://velog.io/search?q=${encodeURIComponent(tag)}`;
     svgContent += `
-      <rect x="${xPos}" y="205" width="${tagWidth}" height="24" rx="12" fill="${cardColor}" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
-      <text x="${xPos + tagWidth/2}" y="221" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="${accentColor}" text-anchor="middle">${tag}</text>
+      <a href="${tagUrl}" target="_blank">
+        <rect x="${xPos}" y="205" width="${tagWidth}" height="24" rx="12" fill="${cardColor}" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />
+        <text x="${xPos + tagWidth/2}" y="221" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="${accentColor}" text-anchor="middle">${tag}</text>
+      </a>
     `;
   });
 
   svgContent += '</svg>';
+
 
   return svgContent;
 }

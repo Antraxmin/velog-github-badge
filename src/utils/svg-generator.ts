@@ -12,6 +12,7 @@ export function generateSVG(username: string, items: FeedItem[], theme: string, 
   const height = 240;
 
   const velogLogoUrl = "https://images.velog.io/images/velog/profile/9aa07f66-5fcd-41f4-84f2-91d73afcec28/green%20favicon.png";
+  const userProfileUrl = `https://velog.io/@${username}`;
 
   let svgContent = `
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
@@ -24,8 +25,10 @@ export function generateSVG(username: string, items: FeedItem[], theme: string, 
       <rect width="100%" height="100%" fill="url(#grad1)" rx="12" />
       
       <!-- Header -->
-      <image xlink:href="${velogLogoUrl}" x="20" y="15" height="30" width="30" />
-      <text x="60" y="37" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="${textColor}">${username}</text>
+       <a href="${userProfileUrl}" target="_blank">
+        <image xlink:href="${velogLogoUrl}" x="20" y="15" height="30" width="30" />
+        <text x="60" y="37" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="${textColor}">${username}</text>
+      </a>
       <text x="${width - 35}" y="37" font-family="Arial, sans-serif" font-size="14" fill="${secondaryColor}" text-anchor="end">❤️ ${totalLikes}</text>
       
       <!-- Latest Posts -->

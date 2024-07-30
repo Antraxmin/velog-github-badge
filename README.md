@@ -23,9 +23,7 @@
   <img src="https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=dark&posts=3" alt="Velog GitHub Badge Example" />
 </p>
 
-## 소개
-
-Velog-GitHub-Badge는 velog 활동을 GitHub 프로필에 표시할 수 있는 도구입니다. 최신 포스트와 인기 태그를 포함한 맞춤형 배지를 생성하여 기술 블로그 활동을 한눈에 보여줄 수 있습니다.
+<br />
 
 ## 주요 기능
 
@@ -54,14 +52,26 @@ GitHub 프로필 README.md 파일에 다음 코드를 추가하세요
 - theme: 배지의 테마 설정 (light 또는 dark, 기본값: light)
 - posts: 표시할 최근 게시물의 수 설정 (기본값: 1, 최대: 3)
 
-#### 라이트 모드
+```
+![Velog's GitHub stats](https://velog-github-badge.vercel.app/badge/velog?username=YourUsername&theme=dark&posts=2)
+```
 
-![Velog's GitHub stats](https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=light&posts=3)
+<div style="display: flex; justify-content: center; gap: 20px;">
+  <div>
+    <h4 style="text-align: center;">라이트 모드</h4>
+    <img src="https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=light&posts=3" alt="Light Mode" />
+  </div>
+  <div>
+    <h4 style="text-align: center;">다크 모드</h4>
+    <img src="https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=dark&posts=2" alt="Dark Mode" />
+  </div>
+</div>
 
-#### 다크 모드
+<br />
 
-![Velog's GitHub stats](https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=dark&posts=2)
+---
 
+<br />
 
 
 <p align="center">
@@ -69,10 +79,6 @@ GitHub 프로필 README.md 파일에 다음 코드를 추가하세요
     <img src="https://img.shields.io/badge/Give%20this%20repo%20a%20star!-blue?style=for-the-badge&logo=github&logoColor=white" alt="Give this repo a star!" />
   </a>
 </p>
-
----
-
-<br />
 
 <p align="center">
   이 프로젝트가 마음에 드셨다면 ⭐️을 눌러주세요!<br>

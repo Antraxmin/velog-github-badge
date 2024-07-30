@@ -40,7 +40,7 @@
 ## 사용법
 GitHub 프로필 README.md 파일에 다음 코드를 추가하세요
 ```
-![Velog's GitHub stats](https://velog-github-badge.vercel.app/badge/velog?username=YourUsername)
+![Velog GitHub stats](https://velog-github-badge.vercel.app/badge/{YourUserName})
 ```
 **YourUsername을 반드시 여러분의 Velog 사용자 이름으로 변경해주세요!**
 
@@ -53,7 +53,7 @@ GitHub 프로필 README.md 파일에 다음 코드를 추가하세요
 - posts: 표시할 최근 게시물의 수 설정 (기본값: 1, 최대: 3)
 
 ```
-![Velog's GitHub stats](https://velog-github-badge.vercel.app/badge/velog?username=YourUsername&theme=dark&posts=2)
+![Velog GitHub stats](https://velog-github-badge.vercel.app/badge/{YourUserName}?theme=light&posts=3)
 ```
 
 <br />

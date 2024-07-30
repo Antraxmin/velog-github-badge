@@ -37,7 +37,7 @@ export function generateSVG(username: string, items: FeedItem[], theme: string, 
   items.slice(0, 3).forEach((item, index) => {
     const yPos = 100 + index * 30;
     const title = item.title.length > 40 ? item.title.substring(0, 37) + '...' : item.title;
-    const date = new Date(item.pubDate).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
+    const date = new Date(item.pubDate).toLocaleDateString('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' });
     svgContent += `
       <a href="${item.link}" target="_blank">
         <rect x="20" y="${yPos - 15}" width="${width - 40}" height="25" rx="4" fill="${cardColor}" filter="drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.05))" />

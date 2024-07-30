@@ -23,6 +23,7 @@ export class BadgeService {
       ]);
 
       const recentPosts = this.getRecentPosts(feed.items, posts);
+      console.log(recentPosts)
       
       return this.svgService.generateSVG(username, recentPosts, theme, totalLikes, tags);
     } catch (error) {

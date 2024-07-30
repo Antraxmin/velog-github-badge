@@ -15,6 +15,7 @@ export class RSSParserService {
           title: item.title || '',
           link: item.link || '',
           pubDate: item.pubDate || '',
+          likes: item.likes || '',
         })),
       };
     } catch (error) {

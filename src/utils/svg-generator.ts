@@ -13,6 +13,7 @@ const VELOG_LOGO_INLINE = `
   </svg>
 `;
 
+
 function getThemeColors(darkMode: boolean) {
   return {
     backgroundColor: darkMode ? '#0F172A' : '#F8FAFC',
@@ -35,7 +36,14 @@ function createBackground(colors: ReturnType<typeof getThemeColors>, darkMode: b
   `;
 }
 
-function createHeader(username: string, userProfileUrl: string, colors: ReturnType<typeof getThemeColors>) {
+function createHeader(username: string, userProfileUrl: string, totalLikes: number, colors: ReturnType<typeof getThemeColors>) {
+  function getHeartPosition(totalLikes: number, width: number) {
+    const textWidth = totalLikes.toLocaleString().length * 10;
+    return width - textWidth - 40;
+  }
+
+  const heartX = getHeartPosition(totalLikes, WIDTH);
+
   return `
     <a href="${userProfileUrl}" target="_blank">
       <g transform="translate(20, 15)">
@@ -45,6 +53,14 @@ function createHeader(username: string, userProfileUrl: string, colors: ReturnTy
         ${username}
       </text>
     </a>
+    <g transform="translate(${heartX}, 22)">
+      <svg width="15" height="15" viewBox="0 0 24 24">
+        <path fill="#1EC997" d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"></path>
+      </svg>
+    </g>
+    <text x="${WIDTH - 20}" y="34" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="${colors.secondaryColor}" text-anchor="end">
+      ${totalLikes.toLocaleString()}
+    </text>
   `;
 }
 
@@ -104,7 +120,7 @@ export function generateSVG(username: string, items: FeedItem[], theme: string, 
   let svgContent = `
     <svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
       ${createBackground(colors, darkMode)}
-      ${createHeader(username, userProfileUrl, colors)}
+      ${createHeader(username, userProfileUrl, totalLikes, colors)}
       ${createLatestPosts(items, colors)}
       ${createTags(tags, colors)}
     </svg>

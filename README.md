@@ -19,9 +19,9 @@
   <a href="#커스터마이징">커스터마이징</a> 
 </p>
 
-<p align="center">
-  <img src="https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=dark&posts=3" alt="Velog GitHub Badge Example" />
-</p>
+| Light Mode | Dark Mode |
+|-------------|-----------|
+| ![Light Mode](https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=light&posts=3) | ![Dark Mode](https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=dark&posts=2) |
 
 <br />
 
@@ -47,7 +47,7 @@ GitHub 프로필 README.md 파일에 다음 코드를 추가하세요
 <br />
 
 ## 커스터마이징
-배지의 모양을 다음 옵션으로 커스터마이즈할 수 있습니다
+배지의 모양을 다음 옵션으로 설정할 수 있습니다
 
 - theme: 배지의 테마 설정 (light 또는 dark, 기본값: light)
 - posts: 표시할 최근 게시물의 수 설정 (기본값: 1, 최대: 3)
@@ -55,17 +55,6 @@ GitHub 프로필 README.md 파일에 다음 코드를 추가하세요
 ```
 ![Velog's GitHub stats](https://velog-github-badge.vercel.app/badge/velog?username=YourUsername&theme=dark&posts=2)
 ```
-
-<div style="display: flex; justify-content: center; gap: 20px;">
-  <div>
-    <h4 style="text-align: center;">라이트 모드</h4>
-    <img src="https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=light&posts=3" alt="Light Mode" />
-  </div>
-  <div>
-    <h4 style="text-align: center;">다크 모드</h4>
-    <img src="https://velog-github-badge.vercel.app/badge/velog?username=velog&theme=dark&posts=2" alt="Dark Mode" />
-  </div>
-</div>
 
 <br />
 

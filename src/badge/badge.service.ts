@@ -1,87 +1,45 @@
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
-import { parseRSS, FeedItem } from '../utils/rss-parser';
-import { generateSVG } from '../utils/svg-generator';
+import { Injectable, Logger } from '@nestjs/common';
+import { SVGService } from './svg.service';
+import { VelogAPIService } from './velog-api.service';
+import { Feed, FeedItem, RSSParserService } from 'src/utils/rss-parser';
 
 @Injectable()
 export class BadgeService {
-  private readonly VELOG_API_ENDPOINT = 'https://v2.velog.io/graphql';
+  private readonly logger = new Logger(BadgeService.name);
+
+  constructor(
+    private readonly rssParserService: RSSParserService,
+    private readonly velogAPIService: VelogAPIService,
+    private readonly svgService: SVGService,
+  ) {}
 
   async generateBadge(username: string, theme: string, posts: number): Promise<string> {
-    const feed = await parseRSS(`https://v2.velog.io/rss/${username}`);
-    const totalLikes = await this.getTotalLikes(username);
-    const tags = await this.getPopularTags(username);
-
-    return generateSVG(username, feed.items.slice(0, posts), theme, totalLikes, tags);
-  }
-
-  private async getTotalLikes(username: string): Promise<number> {
-  const query = `
-    query GetUserPosts($username: String!, $cursor: ID) {
-      userPosts(username: $username, cursor: $cursor) {
-        posts {
-          id
-          likes
-        }
-        pageInfo {
-          endCursor
-          hasNextPage
-        }
-      }
-    }
-  `;
-
-  let totalLikes = 0;
-  let hasNextPage = true;
-  let cursor = null;
-
-  try {
-    while (hasNextPage) {
-      const response = await axios.post(this.VELOG_API_ENDPOINT, {
-        query,
-        variables: { username, cursor },
-      });
-
-      const { posts, pageInfo } = response.data.data.userPosts;
-      totalLikes += posts.reduce((sum, post) => sum + post.likes, 0);
-
-      hasNextPage = pageInfo.hasNextPage;
-      cursor = pageInfo.endCursor;
-    }
-
-    return totalLikes;
-  } catch (error) {
-    console.error('Error fetching total likes:', error);
-    return 0;
-  }
-}
-
-  private async getPopularTags(username: string): Promise<string[]> {
-    const query = `
-      query GetPopularTags($username: String!) {
-        userTags(username: $username) {
-          tags {
-            name
-            posts_count
-          }
-        }
-      }
-    `;
-
     try {
-      const response = await axios.post(this.VELOG_API_ENDPOINT, {
-        query,
-        variables: { username },
-      });
+      const [feed, totalLikes, tags] = await Promise.all([
+        this.getFeed(username),
+        this.velogAPIService.getTotalLikes(username),
+        this.velogAPIService.getPopularTags(username),
+      ]);
 
-      const tags = response.data.data.userTags.tags;
-      return tags
-        .sort((a, b) => b.posts_count - a.posts_count)
-        .slice(0, 3)
-        .map(tag => tag.name);
+      const recentPosts = this.getRecentPosts(feed.items, posts);
+      
+      return this.svgService.generateSVG(username, recentPosts, theme, totalLikes, tags);
     } catch (error) {
-      console.error('Error fetching popular tags:', error);
-      return [];
+      this.logger.error(`Error generating badge for ${username}: ${error.message}`);
+      throw error;
     }
+  }
+
+  private async getFeed(username: string): Promise<Feed> {
+    try {
+      return await this.rssParserService.parseRSS(`https://v2.velog.io/rss/${username}`);
+    } catch (error) {
+      this.logger.error(`Error fetching RSS feed for ${username}: ${error.message}`);
+      return { items: [] };
+    }
+  }
+
+  private getRecentPosts(items: FeedItem[], count: number): FeedItem[] {
+    return items.slice(0, count);
   }
 }

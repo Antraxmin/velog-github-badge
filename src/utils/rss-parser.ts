@@ -1,24 +1,26 @@
+import { Injectable, Logger } from '@nestjs/common';
 import Parser from 'rss-parser';
+import { Feed, FeedItem } from 'src/interfaces/feed-item.interface';
 
-const parser = new Parser();
+@Injectable()
+export class RSSParserService {
+  private readonly parser = new Parser();
+  private readonly logger = new Logger(RSSParserService.name);
 
-export interface FeedItem {
-  title: string;
-  link: string;
-  pubDate: string;
-}
-
-export interface Feed {
-  items: FeedItem[];
-}
-
-export async function parseRSS(url: string): Promise<Feed> {
-  const feed = await parser.parseURL(url);
-  return {
-    items: feed.items.map((item: any): FeedItem => ({
-      title: item.title || '',
-      link: item.link || '',
-      pubDate: item.pubDate || '',
-    })),
-  };
+  async parseRSS(url: string): Promise<Feed> {
+    try {
+      const feed = await this.parser.parseURL(url);
+      return {
+        items: feed.items.map((item: any): FeedItem => ({
+          title: item.title || '',
+          link: item.link || '',
+          pubDate: item.pubDate || '',
+          likes: item.likes || '',
+        })),
+      };
+    } catch (error) {
+      this.logger.error(`Failed to parse RSS feed from ${url}: ${error.message}`);
+      throw error;
+    }
+  }
 }

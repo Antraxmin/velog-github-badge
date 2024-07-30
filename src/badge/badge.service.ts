@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { SVGService } from './svg.service';
 import { VelogAPIService } from './velog-api.service';
-import { RSSParserService } from 'src/utils/rss-parser';
-import { Feed, FeedItem } from 'src/interfaces/feed-item.interface';
+import { RSSParserService } from '../utils/rss-parser';
+import { Feed, FeedItem } from '../interfaces/feed-item.interface';
 
 @Injectable()
 export class BadgeService {

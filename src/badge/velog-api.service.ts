@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import { GET_USER_POSTS, GET_POPULAR_TAGS } from '../constants/graphql-queries';
-import { Post, Tag } from 'src/interfaces/velog-api.interface';
+import { Post, Tag } from '../interfaces/velog-api.interface';
 
 interface VelogPost {
     id: string;

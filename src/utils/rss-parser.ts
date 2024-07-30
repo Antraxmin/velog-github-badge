@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import Parser from 'rss-parser';
-import { Feed, FeedItem } from 'src/interfaces/feed-item.interface';
+import { Feed, FeedItem } from '../interfaces/feed-item.interface';
 
 @Injectable()
 export class RSSParserService {

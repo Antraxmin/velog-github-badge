@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { generateSVG as generateSVGUtil } from '../utils/svg-generator';
-import { FeedItem } from 'src/interfaces/feed-item.interface';
+import { FeedItem } from '../interfaces/feed-item.interface';
 
 @Injectable()
 export class SVGService {

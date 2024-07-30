@@ -16,26 +16,45 @@ export class BadgeService {
   }
 
   private async getTotalLikes(username: string): Promise<number> {
-    const query = `
-      query GetTotalLikes($username: String!) {
-        userProfile(username: $username) {
-          totalLikes
+  const query = `
+    query GetUserPosts($username: String!, $cursor: ID) {
+      userPosts(username: $username, cursor: $cursor) {
+        posts {
+          id
+          likes
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
         }
       }
-    `;
+    }
+  `;
 
-    try {
+  let totalLikes = 0;
+  let hasNextPage = true;
+  let cursor = null;
+
+  try {
+    while (hasNextPage) {
       const response = await axios.post(this.VELOG_API_ENDPOINT, {
         query,
-        variables: { username },
+        variables: { username, cursor },
       });
 
-      return response.data.data.userProfile.totalLikes;
-    } catch (error) {
-      console.error('Error fetching total likes:', error);
-      return 0;
+      const { posts, pageInfo } = response.data.data.userPosts;
+      totalLikes += posts.reduce((sum, post) => sum + post.likes, 0);
+
+      hasNextPage = pageInfo.hasNextPage;
+      cursor = pageInfo.endCursor;
     }
+
+    return totalLikes;
+  } catch (error) {
+    console.error('Error fetching total likes:', error);
+    return 0;
   }
+}
 
   private async getPopularTags(username: string): Promise<string[]> {
     const query = `

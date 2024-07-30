@@ -29,7 +29,6 @@ export function generateSVG(username: string, items: FeedItem[], theme: string, 
         <image xlink:href="${velogLogoUrl}" x="20" y="15" height="30" width="30" />
         <text x="60" y="37" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="${textColor}">${username}</text>
       </a>
-      <text x="${width - 35}" y="37" font-family="Arial, sans-serif" font-size="14" fill="${secondaryColor}" text-anchor="end">❤️ ${totalLikes}</text>
       
       <!-- Latest Posts -->
       <text x="20" y="75" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="${accentColor}">Latest Posts</text>
